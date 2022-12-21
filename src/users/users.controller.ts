@@ -13,5 +13,4 @@ export class UsersController {
   getUserById(@Param('id') id: string): Promise<UserDetails | null> {
     return this.userService.findById(id);
   }
-  //protect route with jwt token
 }

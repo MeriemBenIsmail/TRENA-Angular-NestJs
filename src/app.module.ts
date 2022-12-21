@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { BlacklistedModule } from './blacklisted/blacklisted.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     TerrainsModule,
     AuthModule,
     UsersModule,
+    BlacklistedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

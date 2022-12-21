@@ -7,10 +7,12 @@ import { jwtConstants } from './constants';
 import { AuthController } from './auth.controller';
 import { JwtGuard } from './guards/jwt.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { BlacklistedModule } from 'src/blacklisted/blacklisted.module';
 
 @Module({
   imports: [
     UsersModule,
+    BlacklistedModule,
     PassportModule,
     JwtModule.registerAsync({
       useFactory: () => ({

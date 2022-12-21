@@ -1,8 +1,18 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Request,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { ExistingUserDTO } from 'src/users/dtos/existing-user.dto';
 import { NewUserDTO } from 'src/users/dtos/new-user.dto';
 import { UserDetails } from 'src/users/user-details.interface';
 import { AuthService } from './auth.service';
+import { JwtGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +33,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   verifyJwt(@Body() payload: { jwt: string }) {
     return this.authService.verifyJwt(payload.jwt);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('protected')
+  getHello(@Request() req): string {
+    return req.user;
   }
 }

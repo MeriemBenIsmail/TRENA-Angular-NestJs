@@ -1,26 +1,43 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { CreateTerrainDto } from './dto/create-terrain.dto';
 import { UpdateTerrainDto } from './dto/update-terrain.dto';
+import { CreateTerrainDto } from './dto/create-terrain.dto';
+import { Terrain } from './schemas/terrain.schema';
+import { TerrainRepository } from './terrain.repository';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TerrainsService {
-  create(createTerrainDto: CreateTerrainDto) {
-    return 'This action adds a new terrain';
+  constructor(private readonly terrainRepository: TerrainRepository) {}
+
+  async getTerrainById(terrainId: string): Promise<Terrain> {
+    return this.terrainRepository.findOne({ id: terrainId });
   }
 
-  findAll() {
-    return `This action returns all terrains`;
+  async getTerrains(): Promise<Terrain[]> {
+    return this.terrainRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} terrain`;
+  async createTerrain(createTerrainDto: CreateTerrainDto): Promise<Terrain> {
+    return this.terrainRepository.create({
+      id: uuidv4(),
+      ...createTerrainDto,
+    });
   }
 
-  update(id: number, updateTerrainDto: UpdateTerrainDto) {
-    return `This action updates a #${id} terrain`;
+  async updateTerrain(
+    terrainId: string,
+    terrainUpdates: UpdateTerrainDto,
+  ): Promise<Terrain> {
+    return this.terrainRepository.findOneAndUpdate(
+      { terrainId },
+      terrainUpdates,
+    );
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} terrain`;
+  async deleteTerrain(terrainId: string): Promise<Terrain> {
+    return this.terrainRepository.findOneAndDelete({ terrainId });
+  }
+  async count(options) {
+    return this.terrainRepository.count(options);
   }
 }

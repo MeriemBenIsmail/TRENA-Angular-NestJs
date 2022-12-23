@@ -1,42 +1,49 @@
+/* eslint-disable prettier/prettier */
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
-import { TerrainsService } from './terrains.service';
 import { CreateTerrainDto } from './dto/create-terrain.dto';
 import { UpdateTerrainDto } from './dto/update-terrain.dto';
+import { Terrain } from './schemas/terrain.schema';
+import { TerrainsService } from './terrains.service';
 
 @Controller('terrains')
 export class TerrainsController {
-  constructor(private readonly terrainsService: TerrainsService) {}
+  constructor(private readonly terrainService: TerrainsService) {}
 
-  @Post()
-  create(@Body() createTerrainDto: CreateTerrainDto) {
-    return this.terrainsService.create(createTerrainDto);
+  @Get(':terrainId')
+  async getTerrain(@Param('terrainId') terrainId: string): Promise<Terrain> {
+    return this.terrainService.getTerrainById(terrainId);
   }
 
   @Get()
-  findAll() {
-    return this.terrainsService.findAll();
+  async getTerrains(): Promise<Terrain[]> {
+    return this.terrainService.getTerrains();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.terrainsService.findOne(+id);
+  @Post()
+  async createTerrain(
+    @Body() createTerrainDTO: CreateTerrainDto,
+  ): Promise<Terrain> {
+    return this.terrainService.createTerrain(createTerrainDTO);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTerrainDto: UpdateTerrainDto) {
-    return this.terrainsService.update(+id, updateTerrainDto);
+  @Patch(':terrainId')
+  async updateTerrain(
+    @Param('id') id: string,
+    @Body() updateTerrainDTO: UpdateTerrainDto,
+  ): Promise<Terrain> {
+    return this.terrainService.updateTerrain(id, updateTerrainDTO);
   }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.terrainsService.remove(+id);
+  @Delete(':terrainId')
+  async deleteTerrain(@Param('terrainId') terrainId: string): Promise<Terrain> {
+    return this.terrainService.deleteTerrain(terrainId);
   }
 }

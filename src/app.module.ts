@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BlacklistedModule } from './blacklisted/blacklisted.module';
 import { CoachesController } from './coaches/coaches.controller';
 import { CoachesModule } from './coaches/coaches.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CoachesModule } from './coaches/coaches.module';
     UsersModule,
     BlacklistedModule,
     CoachesModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

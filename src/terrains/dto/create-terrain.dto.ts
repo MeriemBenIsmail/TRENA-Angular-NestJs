@@ -2,7 +2,6 @@
 
 export class CreateTerrainDto {
   id: string;
-  tag: string;
   description: string;
   address: string;
   surface: number;

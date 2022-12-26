@@ -11,10 +11,7 @@ export class Terrain {
     unique: true,
   })
   id: string;
-  @Prop({
-    required: true,
-  })
-  tag: string;
+ 
   @Prop({
     required: true,
   })

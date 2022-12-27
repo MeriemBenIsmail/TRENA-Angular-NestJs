@@ -2,6 +2,7 @@ import { UsersService } from './users.service';
 import { Controller, Get, Param, UseGuards, Request } from '@nestjs/common';
 import { UserDetails } from './user-details.interface';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { User } from 'src/decorators/user.decorator';
 
 @Controller('user')
 export class UsersController {
@@ -9,8 +10,8 @@ export class UsersController {
 
   @UseGuards(JwtGuard)
   @Get('profile')
-  getProfile(@Request() req): string {
-    return req.user;
+  getProfile(@User() user: UserDetails): UserDetails {
+    return user;
   }
 
   //protect route with jwt token

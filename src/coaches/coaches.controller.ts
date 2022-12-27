@@ -14,6 +14,7 @@ import { UpdateCoachDto } from './dto/update-coach.dto';
 import { Coach } from './schemas/coach.schema';
 import { CoachesService } from './coaches.service';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { User } from 'src/decorators/user.decorator';
 
 @Controller('coaches')
 export class CoachesController {
@@ -33,22 +34,29 @@ export class CoachesController {
 
   @UseGuards(JwtGuard)
   @Post()
-  async createCoach(@Body() createCoachDTO: CreateCoachDto): Promise<Coach> {
-    return this.coachesService.createCoach(createCoachDTO);
+  async createCoach(
+    @User() user,
+    @Body() createCoachDTO: CreateCoachDto,
+  ): Promise<Coach> {
+    return this.coachesService.createCoach(user, createCoachDTO);
   }
 
   @UseGuards(JwtGuard)
   @Patch(':coachId')
   async updateCoach(
+    @User() user,
     @Param('id') id: string,
     @Body() updateCoachDTO: UpdateCoachDto,
   ): Promise<Coach> {
-    return this.coachesService.updateCoach(id, updateCoachDTO);
+    return this.coachesService.updateCoach(user, id, updateCoachDTO);
   }
 
   @UseGuards(JwtGuard)
   @Delete(':coachId')
-  async deleteCoach(@Param('coachId') coachId: string): Promise<Coach> {
-    return this.coachesService.deleteCoach(coachId);
+  async deleteCoach(
+    @User() user,
+    @Param('coachId') coachId: string,
+  ): Promise<Coach> {
+    return this.coachesService.deleteCoach(user, coachId);
   }
 }

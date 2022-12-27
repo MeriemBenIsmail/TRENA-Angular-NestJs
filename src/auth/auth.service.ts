@@ -19,7 +19,7 @@ export class AuthService {
     return bcrypt.hash(password, 12);
   }
   async register(user: Readonly<NewUserDTO>): Promise<UserDetails | any> {
-    const { name, email, password } = user;
+    const { name, email, password, role } = user;
 
     //email should be unique
     const existingUser = await this.usersService.findByEmail(email);
@@ -32,7 +32,12 @@ export class AuthService {
 
     const hashedPassword = await this.hashPassword(password);
 
-    const newUser = await this.usersService.create(name, email, hashedPassword);
+    const newUser = await this.usersService.create(
+      name,
+      email,
+      hashedPassword,
+      role,
+    );
     return this.usersService._getUserDetails(newUser);
   }
   async doesPasswordMatch(

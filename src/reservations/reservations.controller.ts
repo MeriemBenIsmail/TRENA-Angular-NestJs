@@ -32,17 +32,4 @@ export class ReservationsController {
   async findOne(@Param('id') id: string): Promise<Reservation | null> {
     return this.reservationsService.getReservationById(id);
   }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateReservationDto: UpdateReservationDto,
-  ) {
-    return this.reservationsService.update(+id, updateReservationDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reservationsService.remove(+id);
-  }
 }

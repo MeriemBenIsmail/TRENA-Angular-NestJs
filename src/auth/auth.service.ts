@@ -26,7 +26,7 @@ export class AuthService {
 
     if (existingUser)
       throw new HttpException(
-        'An account with that email already exists!',
+        'Email déjà utilisé,veuillez réessayer.',
         HttpStatus.CONFLICT,
       );
 
@@ -38,7 +38,10 @@ export class AuthService {
       hashedPassword,
       role,
     );
-    return this.usersService._getUserDetails(newUser);
+    const identifiedUser = await this.validateUser(email, password);
+
+    const jwt = await this.jwtService.signAsync({ identifiedUser });
+    return { token: jwt };
   }
   async doesPasswordMatch(
     password: string,
@@ -71,7 +74,10 @@ export class AuthService {
     const user = await this.validateUser(email, password);
 
     if (!user)
-      throw new HttpException('Credentials invalid!', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Identifiants invalides,veuillez réessayer.',
+        HttpStatus.UNAUTHORIZED,
+      );
 
     const jwt = await this.jwtService.signAsync({ user });
     return { token: jwt };

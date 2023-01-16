@@ -71,12 +71,4 @@ export class ReservationsService {
   async getReservationByUserId(userId: string): Promise<Reservation[]> {
     return this.reservationRepository.find({ user: userId });
   }
-
-  update(id: number, updateReservationDto: UpdateReservationDto) {
-    return `This action updates a #${id} reservation`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} reservation`;
-  }
 }

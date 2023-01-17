@@ -54,8 +54,9 @@ export class ReservationsService {
           id: uuidv4(),
           ...createReservationDto,
         });
-      } else return { res: 'error', message: 'Booked' };
-    } else return { res: 'error', message: 'End time > Beginning time' };
+      } else return { res: 'error', message: 'Horaire indisponibles' };
+    } else
+      return { res: 'error', message: 'Veuillez vérifier les dates entrées' };
   }
 
   async getReservations(): Promise<Reservation[] | null> {

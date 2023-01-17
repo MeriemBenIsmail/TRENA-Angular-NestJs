@@ -7,5 +7,6 @@ export class CreateTerrainDto {
   surface: number;
   available: boolean;
   sport: number;
-  image:string;
+  image: string;
+  price: number;
 }

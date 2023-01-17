@@ -19,21 +19,29 @@ export class AuthService {
     return bcrypt.hash(password, 12);
   }
   async register(user: Readonly<NewUserDTO>): Promise<UserDetails | any> {
-    const { name, email, password } = user;
+    const { name, email, password, role } = user;
 
     //email should be unique
     const existingUser = await this.usersService.findByEmail(email);
 
     if (existingUser)
       throw new HttpException(
-        'An account with that email already exists!',
+        'Email déjà utilisé,veuillez réessayer.',
         HttpStatus.CONFLICT,
       );
 
     const hashedPassword = await this.hashPassword(password);
 
-    const newUser = await this.usersService.create(name, email, hashedPassword);
-    return this.usersService._getUserDetails(newUser);
+    const newUser = await this.usersService.create(
+      name,
+      email,
+      hashedPassword,
+      role,
+    );
+    const identifiedUser = await this.validateUser(email, password);
+
+    const jwt = await this.jwtService.signAsync({ identifiedUser });
+    return { token: jwt };
   }
   async doesPasswordMatch(
     password: string,
@@ -66,7 +74,10 @@ export class AuthService {
     const user = await this.validateUser(email, password);
 
     if (!user)
-      throw new HttpException('Credentials invalid!', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Identifiants invalides,veuillez réessayer.',
+        HttpStatus.UNAUTHORIZED,
+      );
 
     const jwt = await this.jwtService.signAsync({ user });
     return { token: jwt };

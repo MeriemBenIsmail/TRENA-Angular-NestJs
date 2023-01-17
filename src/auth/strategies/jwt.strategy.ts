@@ -16,11 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const token = ExtractJwt.fromAuthHeaderAsBearerToken();
-    if (this.blacklistedService.findOne(token)) {
-      console.log(this.blacklistedService.findOne(token))
-      return { error: 'unauthorized' };
-    }
     return { ...payload.user };
   }
 }

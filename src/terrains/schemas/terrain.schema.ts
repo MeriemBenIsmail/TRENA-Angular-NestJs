@@ -11,10 +11,7 @@ export class Terrain {
     unique: true,
   })
   id: string;
-  @Prop({
-    required: true,
-  })
-  tag: string;
+
   @Prop({
     required: true,
   })
@@ -35,6 +32,10 @@ export class Terrain {
     required: true,
   })
   available: boolean;
+  @Prop({
+    required: true,
+  })
+  price: number;
   @Prop({
     required: true,
   })

@@ -6,9 +6,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { BlacklistedModule } from './blacklisted/blacklisted.module';
-import { CoachesController } from './coaches/coaches.controller';
-import { CoachesModule } from './coaches/coaches.module';
 import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
@@ -18,8 +15,6 @@ import { ReservationsModule } from './reservations/reservations.module';
     TerrainsModule,
     AuthModule,
     UsersModule,
-    BlacklistedModule,
-    CoachesModule,
     ReservationsModule,
   ],
   controllers: [AppController],

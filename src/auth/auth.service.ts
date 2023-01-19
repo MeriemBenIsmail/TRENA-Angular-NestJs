@@ -5,14 +5,12 @@ import * as bcrypt from 'bcrypt';
 import { NewUserDTO } from 'src/users/dtos/new-user.dto';
 import { UserDetails } from 'src/users/user-details.interface';
 import { ExistingUserDTO } from 'src/users/dtos/existing-user.dto';
-import { BlacklistedService } from 'src/blacklisted/blacklisted.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private blacklistedService: BlacklistedService,
   ) {}
 
   async hashPassword(password: string): Promise<string> {
@@ -83,10 +81,6 @@ export class AuthService {
     return { token: jwt };
   }
 
-  async logout(req) {
-    const token = req.headers.authorization.split(' ')[1];
-    this.blacklistedService.create({ jwt: token });
-  }
   async verifyJwt(jwt: string): Promise<{ exp: number }> {
     try {
       const { exp } = await this.jwtService.verifyAsync(jwt);
